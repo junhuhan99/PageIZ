@@ -192,104 +192,64 @@ export default function Home() {
         <section className="px-8 py-24 bg-black/5">
           <div className="mx-auto max-w-6xl">
             <h3 className="text-4xl font-bold text-center mb-4">
-              Simple, transparent pricing
+              완전 무료
             </h3>
             <p className="text-xl text-black/60 text-center mb-16">
-              Start for free, upgrade when you need more
+              모든 기능을 영구적으로 무료로 사용하세요
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-              <div className="p-8 bg-white border-2 border-black/10 rounded-xl">
-                <h4 className="text-2xl font-bold mb-2">Free</h4>
-                <p className="text-4xl font-bold mb-6">$0<span className="text-lg text-black/60">/month</span></p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">1 site</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">Free subdomain</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">All block types</span>
-                  </li>
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">Basic analytics</span>
-                  </li>
-                </ul>
-                <Link
-                  href="/signup"
-                  className="block w-full py-3 text-center border-2 border-black rounded-lg hover:bg-black/5 font-medium transition-all"
-                >
-                  Get Started
-                </Link>
-              </div>
-
-              <div className="p-8 bg-black text-white rounded-xl relative">
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-4 py-1 bg-white text-black text-sm font-semibold rounded-full">
-                  Popular
+            <div className="flex justify-center">
+              <div className="p-12 bg-black text-white rounded-2xl relative max-w-md w-full shadow-2xl">
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 px-6 py-2 bg-gradient-to-r from-green-400 to-blue-500 text-white text-sm font-bold rounded-full">
+                  영구 무료
                 </div>
-                <h4 className="text-2xl font-bold mb-2">Pro</h4>
-                <p className="text-4xl font-bold mb-6">$9<span className="text-lg text-white/60">/month</span></p>
-                <ul className="space-y-3 mb-8">
+                <h4 className="text-3xl font-bold mb-3 text-center">Free Forever</h4>
+                <p className="text-6xl font-bold mb-8 text-center">
+                  ₩0
+                  <span className="text-xl text-white/60 block mt-2">평생 무료</span>
+                </p>
+                <ul className="space-y-4 mb-10">
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-white/80">Unlimited sites</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">무제한 사이트 생성</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-white/80">Custom domains</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">무료 서브도메인 제공</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-white/80">All block types</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">커스텀 도메인 연결</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-white/80">Advanced analytics</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">27가지 모든 블록 타입</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-white/80">Remove branding</span>
-                  </li>
-                </ul>
-                <Link
-                  href="/signup"
-                  className="block w-full py-3 text-center bg-white text-black rounded-lg hover:bg-white/90 font-medium transition-all"
-                >
-                  Upgrade to Pro
-                </Link>
-              </div>
-
-              <div className="p-8 bg-white border-2 border-black/10 rounded-xl">
-                <h4 className="text-2xl font-bold mb-2">Business</h4>
-                <p className="text-4xl font-bold mb-6">$29<span className="text-lg text-black/60">/month</span></p>
-                <ul className="space-y-3 mb-8">
-                  <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">Everything in Pro</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">이미지/비디오 업로드</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">Team collaboration</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">분석 도구 제공</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">Priority support</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">SSL 인증서 자동 발급</span>
                   </li>
                   <li className="flex items-start">
-                    <span className="mr-2">✓</span>
-                    <span className="text-black/60">API access</span>
+                    <span className="mr-3 text-green-400 text-xl">✓</span>
+                    <span className="text-white/90">SEO 최적화</span>
                   </li>
                 </ul>
                 <Link
                   href="/signup"
-                  className="block w-full py-3 text-center border-2 border-black rounded-lg hover:bg-black/5 font-medium transition-all"
+                  className="block w-full py-4 text-center bg-white text-black rounded-xl hover:bg-gray-100 font-bold text-lg transition-all transform hover:scale-105"
                 >
-                  Contact Sales
+                  지금 무료로 시작하기
                 </Link>
+                <p className="text-center text-white/60 text-sm mt-6">
+                  신용카드 필요 없음 · 언제든지 사용 가능
+                </p>
               </div>
             </div>
           </div>
