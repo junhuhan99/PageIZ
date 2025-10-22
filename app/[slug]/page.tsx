@@ -86,12 +86,13 @@ function renderBlock(block: any, theme: string) {
 
     case 'heading':
       const HeadingTag = payload.level || 'h1';
-      const headingClass = {
+      const headingClasses: { [key: string]: string } = {
         h1: 'text-4xl font-bold',
         h2: 'text-3xl font-bold',
         h3: 'text-2xl font-semibold',
         h4: 'text-xl font-semibold',
-      }[payload.level] || 'text-4xl font-bold';
+      };
+      const headingClass = headingClasses[payload.level as string] || 'text-4xl font-bold';
 
       return (
         <div className={headingClass}>
@@ -112,12 +113,12 @@ function renderBlock(block: any, theme: string) {
       );
 
     case 'button':
-      const buttonColors = {
+      const buttonColors: { [key: string]: string } = {
         black: 'bg-black text-white hover:bg-gray-800',
         white: 'bg-white text-black border-2 border-black hover:bg-gray-100',
         gray: 'bg-gray-500 text-white hover:bg-gray-600',
       };
-      const buttonClass = buttonColors[payload.color as keyof typeof buttonColors] || buttonColors.black;
+      const buttonClass = buttonColors[payload.color as string] || buttonColors.black;
 
       return (
         <a
@@ -177,12 +178,12 @@ function renderBlock(block: any, theme: string) {
       }
 
     case 'divider':
-      const dividerStyles = {
+      const dividerStyles: { [key: string]: string } = {
         solid: 'border-solid',
         dashed: 'border-dashed',
         dotted: 'border-dotted',
       };
-      const dividerClass = dividerStyles[payload.style as keyof typeof dividerStyles] || 'border-solid';
+      const dividerClass = dividerStyles[payload.style as string] || 'border-solid';
 
       return (
         <hr className={`border-t-2 ${dividerClass} ${isDark ? 'border-gray-700' : 'border-gray-300'}`} />
