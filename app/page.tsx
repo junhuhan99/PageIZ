@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 
 export default async function Home() {
   // Check if this is a custom domain
-  const headersList = headers();
+  const headersList = await headers();
   const customDomain = headersList.get('x-custom-domain');
 
   if (customDomain) {
