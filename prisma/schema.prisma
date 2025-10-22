@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  plan      String   @default("free")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sites     Site[]
+  media     Media[]
+}
+
+model Site {
+  id        String   @id @default(cuid())
+  userId    String
+  title     String
+  theme     String   @default("white") // black or white
+  status    String   @default("draft") // draft or published
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  pages     Page[]
+  domains   Domain[]
+
+  @@index([userId])
+}
+
+model Page {
+  id          String   @id @default(cuid())
+  siteId      String
+  slug        String
+  metaTitle   String?
+  metaDesc    String?
+  ogImageId   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  site        Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  blocks      Block[]
+  publishes   Publish[]
+  analyticsEvents AnalyticsEvent[]
+
+  @@unique([siteId, slug])
+  @@index([siteId])
+}
+
+model Block {
+  id        String   @id @default(cuid())
+  pageId    String
+  type      String   // text, heading, link, button, image, video, gallery, icon, social, contact-form, etc.
+  order     Int
+  payload   Json     // Flexible JSON payload for block-specific data
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+  @@index([pageId, order])
+}
+
+model Media {
+  id        String   @id @default(cuid())
+  userId    String
+  s3Key     String   @unique
+  type      String   // image, video, file
+  width     Int?
+  height    Int?
+  size      Int?
+  mimeType  String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Domain {
+  id        String   @id @default(cuid())
+  siteId    String
+  hostname  String   @unique
+  type      String   // subdomain, custom, path
+  verified  Boolean  @default(false)
+  sslStatus String   @default("pending") // pending, active, failed
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  site      Site     @relation(fields: [siteId], references: [id], onDelete: Cascade)
+
+  @@index([siteId])
+}
+
+model Publish {
+  id        String   @id @default(cuid())
+  pageId    String
+  url       String
+  version   Int
+  createdAt DateTime @default(now())
+
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+}
+
+model AnalyticsEvent {
+  id        String   @id @default(cuid())
+  pageId    String
+  type      String   // view, click, etc.
+  ua        String?
+  referrer  String?
+  ts        DateTime @default(now())
+
+  page      Page     @relation(fields: [pageId], references: [id], onDelete: Cascade)
+
+  @@index([pageId])
+  @@index([ts])
+}

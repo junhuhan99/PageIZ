@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --app --no-src-dir --import-alias \"@/*\" --use-npm)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(npx create-next-app:*)",
+      "Read(//d/**)",
+      "Bash(cp:*)",
+      "Bash(cp -r pageiz_temp/.* .)",
+      "Bash(rm:*)",
+      "Bash(rmdir:*)",
+      "Bash(npm install:*)",
+      "Bash(npx prisma init)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
