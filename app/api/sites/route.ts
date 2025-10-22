@@ -41,11 +41,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Create site with default page
     const site = await prisma.site.create({
       data: {
         userId: user.userId,
         title,
         theme,
+        pages: {
+          create: {
+            slug: title.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, ''),
+            metaTitle: title,
+            metaDesc: `Welcome to ${title}`,
+          },
+        },
+      },
+      include: {
+        pages: true,
       },
     });
 
@@ -55,6 +66,56 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     console.error('Create site error:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const user = requireAuth(request);
+    const body = await request.json();
+    const { id, title, theme } = body;
+
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Site ID is required' },
+        { status: 400 }
+      );
+    }
+
+    // Verify ownership
+    const site = await prisma.site.findFirst({
+      where: {
+        id,
+        userId: user.userId,
+      },
+    });
+
+    if (!site) {
+      return NextResponse.json(
+        { error: 'Site not found' },
+        { status: 404 }
+      );
+    }
+
+    // Update site
+    const updatedSite = await prisma.site.update({
+      where: { id },
+      data: {
+        ...(title && { title }),
+        ...(theme && { theme }),
+      },
+    });
+
+    return NextResponse.json({ site: updatedSite });
+  } catch (error: any) {
+    if (error.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error('Update site error:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
