@@ -67,7 +67,7 @@ export default function EditorPage() {
 
       if (foundSite) {
         setSite(foundSite);
-        if (foundSite.pages.length > 0) {
+        if (foundSite.pages && foundSite.pages.length > 0) {
           setCurrentPage(foundSite.pages[0]);
         }
       }
@@ -102,7 +102,7 @@ export default function EditorPage() {
 
       const data = await res.json();
       if (site) {
-        setSite({ ...site, pages: [...site.pages, data.page] });
+        setSite({ ...site, pages: [...(site.pages || []), data.page] });
         setCurrentPage(data.page);
       }
       setShowNewPageModal(false);
@@ -138,7 +138,7 @@ export default function EditorPage() {
       const data = await res.json();
       const updatedPage = {
         ...currentPage,
-        blocks: [...currentPage.blocks, data.block],
+        blocks: [...(currentPage.blocks || []), data.block],
       };
       setCurrentPage(updatedPage);
 
@@ -176,7 +176,7 @@ export default function EditorPage() {
 
       const updatedPage = {
         ...currentPage,
-        blocks: currentPage.blocks.filter((b) => b.id !== blockId),
+        blocks: (currentPage.blocks || []).filter((b) => b.id !== blockId),
       };
       setCurrentPage(updatedPage);
 
@@ -243,7 +243,7 @@ export default function EditorPage() {
               </button>
             </div>
             <div className="space-y-2">
-              {site.pages.map((page) => (
+              {(site.pages || []).map((page) => (
                 <button
                   key={page.id}
                   onClick={() => setCurrentPage(page)}
@@ -279,7 +279,7 @@ export default function EditorPage() {
                 </button>
               </div>
 
-              {currentPage.blocks.length === 0 ? (
+              {(!currentPage.blocks || currentPage.blocks.length === 0) ? (
                 <div className="text-center py-24">
                   <h2 className="text-xl font-medium mb-2">
                     블록이 없습니다
@@ -296,7 +296,7 @@ export default function EditorPage() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {currentPage.blocks
+                  {(currentPage.blocks || [])
                     .sort((a, b) => a.order - b.order)
                     .map((block) => (
                       <div
