@@ -36,18 +36,28 @@ export async function POST(request: NextRequest) {
       data: { status: 'published' },
     });
 
-    // Create publish record
-    const publish = await prisma.publish.create({
-      data: {
-        siteId,
-        version: new Date().getTime().toString(),
-        status: 'success',
-      },
+    // Get all pages for this site
+    const pages = await prisma.page.findMany({
+      where: { siteId },
     });
+
+    // Create publish records for each page
+    const version = Math.floor(Date.now() / 1000);
+    const publishes = await Promise.all(
+      pages.map((page) =>
+        prisma.publish.create({
+          data: {
+            pageId: page.id,
+            url: `https://pageiz.me/${page.slug}`,
+            version,
+          },
+        })
+      )
+    );
 
     return NextResponse.json({
       success: true,
-      publish,
+      publishes,
       message: '사이트가 성공적으로 배포되었습니다!',
     });
   } catch (error: any) {

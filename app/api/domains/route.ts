@@ -52,9 +52,9 @@ export async function POST(request: NextRequest) {
   try {
     const user = requireAuth(request);
     const body = await request.json();
-    const { siteId, domain, type = 'custom' } = body;
+    const { siteId, hostname, type = 'custom' } = body;
 
-    if (!siteId || !domain) {
+    if (!siteId || !hostname) {
       return NextResponse.json(
         { error: '사이트 ID와 도메인이 필요합니다' },
         { status: 400 }
@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
 
     // Check if domain already exists
     const existingDomain = await prisma.domain.findFirst({
-      where: { domain },
+      where: { hostname },
     });
 
     if (existingDomain) {
@@ -91,7 +91,7 @@ export async function POST(request: NextRequest) {
     const newDomain = await prisma.domain.create({
       data: {
         siteId,
-        domain,
+        hostname,
         type,
         verified: type === 'subdomain', // Auto-verify subdomains
       },
