@@ -11,6 +11,9 @@ interface PageProps {
 export default async function PublishedPage({ params }: PageProps) {
   const { slug } = params;
 
+  console.log('=== Published Page Debug ===');
+  console.log('Requested slug:', slug);
+
   // Find the page by slug
   const page = await prisma.page.findFirst({
     where: { slug },
@@ -22,7 +25,12 @@ export default async function PublishedPage({ params }: PageProps) {
     },
   });
 
-  if (!page || !page.blocks) {
+  console.log('Found page:', page?.id);
+  console.log('Page slug:', page?.slug);
+  console.log('Number of blocks:', page?.blocks?.length || 0);
+  console.log('===========================');
+
+  if (!page) {
     notFound();
   }
 
@@ -53,11 +61,18 @@ export default async function PublishedPage({ params }: PageProps) {
 
       {/* Blocks Container */}
       <div className="max-w-2xl mx-auto space-y-4">
-        {page.blocks.map((block) => (
-          <div key={block.id}>
-            {renderBlock(block, theme)}
+        {page.blocks && page.blocks.length > 0 ? (
+          page.blocks.map((block) => (
+            <div key={block.id}>
+              {renderBlock(block, theme)}
+            </div>
+          ))
+        ) : (
+          <div className={`text-center py-12 ${theme === 'black' ? 'text-gray-400' : 'text-gray-600'}`}>
+            <p className="text-lg mb-2">이 페이지에 아직 콘텐츠가 없습니다</p>
+            <p className="text-sm">에디터에서 블록을 추가해보세요!</p>
           </div>
-        ))}
+        )}
       </div>
 
       {/* Footer */}
