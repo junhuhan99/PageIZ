@@ -9,7 +9,13 @@ export async function GET(request: NextRequest) {
     const sites = await prisma.site.findMany({
       where: { userId: user.userId },
       include: {
-        pages: true,
+        pages: {
+          include: {
+            blocks: {
+              orderBy: { order: 'asc' },
+            },
+          },
+        },
         domains: true,
       },
       orderBy: { createdAt: 'desc' },

@@ -1,6 +1,38 @@
 import Link from "next/link";
+import { headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { prisma } from '@/lib/prisma';
 
-export default function Home() {
+export default async function Home() {
+  // Check if this is a custom domain
+  const headersList = headers();
+  const customDomain = headersList.get('x-custom-domain');
+
+  if (customDomain) {
+    // Find the site associated with this domain
+    const domain = await prisma.domain.findFirst({
+      where: {
+        hostname: customDomain,
+        verified: true,
+      },
+      include: {
+        site: {
+          include: {
+            pages: {
+              orderBy: { createdAt: 'asc' },
+              take: 1,
+            },
+          },
+        },
+      },
+    });
+
+    if (domain && domain.site.pages.length > 0) {
+      // Redirect to the first page
+      redirect(`/${domain.site.pages[0].slug}`);
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <header className="border-b border-black/10 px-8 py-6">
